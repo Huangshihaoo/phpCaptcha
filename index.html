@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>验证码系统</title>
+    <style>
+        .box {
+            width: 500px;
+            margin: 0 auto;
+            text-align: center;
+            border: 1px solid #aaa;
+        }
+
+        .box .code {
+            margin-bottom: 30px;
+        }
+
+        .box .code a {
+            display: block;
+            margin-top: 20px;
+            text-decoration: none;
+        }
+
+        .box input {
+            display: block;
+            width: 200px;
+            height: 30px;
+            margin: 0 auto;
+            padding: 0 10px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <h1>验证码系统</h1>
+        <div class="code">
+            <img class="img" src="./controller/code.php" alt="">
+            <a class='btn' href="javascript:;">换一张</a>
+        </div>
+        <form action="" method="post">
+            <input type="text" placeholder="请输入验证码" name='code' maxLength="4" pattern="[0-9a-z]{4}" required>
+            <input type="button" value="验证">
+        </form>
+    </div>
+
+    <script>
+        // 换一张a标签
+        let btn = document.querySelector('.btn');
+        // 图片
+        let img = document.querySelector('.img');
+        // 提交按钮
+        let button = document.querySelector('input[type="button"]');
+        // 输入框
+        let input = document.querySelector('input[type="text"]')
+
+        // a链接点击事件
+        btn.onclick = () => {
+            // 奇技淫巧获取新图片
+            img.src = './controller/code.php?t=' + new Date().getTime();
+        }
+
+        // 提交按钮点击事件
+        button.onclick = () => {
+            // 获取输入框内容
+            let value = input.value;
+            // 写请求
+            let xhr = new XMLHttpRequest();
+            xhr.open('POST', './controller/check.php');
+            // post请求必须设置请求头！！！！
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.send(`code=${value}`);
+
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // 回调函数
+                    window.alert(xhr.response);
+                    // 改掉图片
+                    img.src = './controller/code.php?t=' + new Date().getTime();
+                }
+            }
+            // 清除输入框数据
+            input.value = '';
+        }
+    </script>
+</body>
+
+</html>
