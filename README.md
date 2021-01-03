@@ -7,12 +7,19 @@
 ## 文件描述
 
 |-- README.md  // 描述文件
+
 |-- controller
+
 |   |-- check.php // 检查验证码是否正确
+
 |   |-- code.php // 验证码路径
+
 |   |-- codeController.php // 一系列验证码功能类
+
 |-- font
+
 |   |-- AbelBecker-Light-Italic.ttf // 字体文件
+
 |-- index.html // 显示页面
 
 ## 项目总结
